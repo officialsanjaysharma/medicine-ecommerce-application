@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { instanceOf } from 'prop-types';
 import { Route, Redirect } from "react-router-dom";
 import { withCookies, Cookies } from 'react-cookie';
+import { CircularProgress } from '@material-ui/core';
 
 class PrivateRoute extends React.Component {
   static propTypes = { cookies: instanceOf(Cookies).isRequired };
@@ -13,26 +14,37 @@ class PrivateRoute extends React.Component {
     this.state = { authenticated: false, jwt: cookies.get("jwt") }
   }
   async componentWillMount() {
-    await fetch("http://localhost:3000/users/protected", {
-      method: "GET",
-      redirect: 'follow',
-      credentials: 'include',
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.state.jwt}`,
-      }
-    })
-      .then(res => res.json())
-      .then(res => {
-        if (res.data.email) this.setState({ authenticated: true })
+    if (this.state.jwt) {
+      console.log('hey', this.state.jwt)
+      await fetch("http://localhost:3000/users/protected", {
+        method: "GET",
+        redirect: 'follow',
+        credentials: 'include',
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.state.jwt}`,
+        }
       })
+        .then(res => res.json())
+        .then(res => {
+          console.log("respones", res)
+          if (res.data.email) this.setState({ authenticated: true })
+        })
+    }
   }
 
   render() {
     const { component: Component, ...rest } = this.props;
-
+    const { authenticated } = this.state;
+    console.log("authenticated", authenticated)
     return (
-      <Route {...rest} exact render={(props) => (this.state.authenticated ? <Component {...props} /> : <Redirect to="/login" />)} />
+      (this.state.authenticated) ?
+        <Route
+          {...rest}
+          render={({ props }) => (authenticated ? <Component {...props} /> : <Redirect to={{ pathname: "/login", state: { from: props } }} />)
+          } /> : <div>{
+            this.state.jwt ? <div><CircularProgress /></div> : <Redirect to="/login" />
+          }</div>
     )
   }
 }

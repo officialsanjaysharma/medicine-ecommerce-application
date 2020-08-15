@@ -2,12 +2,12 @@ import React from "react";
 import App from "../App";
 import Cart from "./Cart";
 import Login from "./Login";
+// import history from '../history';
 import Cookies from "js-cookie";
 import AppBar from "../component/AppBar";
 import PrivateRoute from "./PrivateRoute";
 import { withCookies, } from "react-cookie";
-import PrivateRouteHome from "./PrivateRouteHome";
-import { BrowserRouter, Redirect } from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 class AppRouter extends React.Component {
   constructor(props) {
     super(props);
@@ -21,7 +21,7 @@ class AppRouter extends React.Component {
       headers: {
         "Content-Type": "application/json"
       }
-    }).then(res => { Cookies.get("jwt"); })
+    }).then(res => { Cookies.get("jwt"); this.setState({ authenticated: true }) })
   }
   componentWillMount() { if (Cookies.get('jwt')) this.setState({ authenticated: true }) }
 
@@ -30,12 +30,17 @@ class AppRouter extends React.Component {
   render() {
     return (
       <>
-        <BrowserRouter>
+
+        <BrowserRouter >
           <AppBar authenticated={this.state.authenticated} ></AppBar>
-          <PrivateRoute path="/" component={App} />
-          <PrivateRoute path="/cart" component={Cart} />
-          <PrivateRouteHome path="/login" component={Login} />
-          <Redirect to="/" />
+          <Switch>
+            <PrivateRoute exact path="/" component={App} />
+            <PrivateRoute path="/cart" component={Cart} />
+            <Route path="/login" component={Login} >
+              {this.state.authenticated ? <Redirect to="/" /> : null}
+            </Route>
+            <Redirect to="/" />
+          </Switch>
         </BrowserRouter>
       </>
     )

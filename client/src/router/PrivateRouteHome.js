@@ -14,23 +14,27 @@ class PrivateRoute extends React.Component {
   }
   async componentWillMount() {
     // To verify if the provided token is verified or not
-    await fetch("http://localhost:3000/users/protected", {
-      method: "GET",
-      redirect: 'follow',
-      credentials: 'include',
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.state.jwt}`,
-      }
-    })
-      .then(res => res.json())
-      .then(res => { if (res.data.email) this.setState({ authenticated: true }) })
+    if (this.state.jwt) {
+
+      await fetch("http://localhost:3000/users/protected", {
+        method: "GET",
+        redirect: 'follow',
+        credentials: 'include',
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.state.jwt}`,
+        }
+      })
+        .then(res => res.json())
+        .then(res => { if (res.data.email) this.setState({ authenticated: true }) })
+    }
   }
 
   render() {
     const { component: Component, ...rest } = this.props;
+    console.log("login")
     return (
-      <Route {...rest} exact render={(props) => (this.state.authenticated ? <Redirect to="/" /> : <Component {...props} />)} />
+      <Route {...rest} exact render={(props) => (this.state.authenticated ? <Redirect to="/home" /> : <Component {...props} />)} />
     )
   }
 }

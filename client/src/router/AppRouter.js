@@ -2,7 +2,6 @@ import React from "react";
 import App from "../App";
 import Cart from "./Cart";
 import Login from "./Login";
-// import history from '../history';
 import Cookies from "js-cookie";
 import AppBar from "../component/AppBar";
 import PrivateRoute from "./PrivateRoute";

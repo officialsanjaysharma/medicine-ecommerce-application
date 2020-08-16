@@ -18,7 +18,7 @@ class Invoice extends React.Component {
       total: 0
     }
   }
-  async componentDidMount() {
+  componentDidMount() {
     if (this.props.location && this.props.location.state && this.props.location.state.data && this.props.location.state.data) {
       this.setState({ data: this.props.location.state.data.items, total: this.props.location.state.data.total })
     } else {

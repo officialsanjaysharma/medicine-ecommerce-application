@@ -41,7 +41,7 @@ class PrivateRoute extends React.Component {
       (this.state.authenticated) ?
         <Route
           {...rest}
-          render={({ props }) => (authenticated ? <Component {...props} /> : <Redirect to={{ pathname: "/login", state: { from: props } }} />)
+          render={({ props }) => (authenticated ? <Component {...props} /> : <Redirect to={{ pathname: "/login", state: { data: props.location } }} />)
           } /> : <div>{
             this.state.jwt ? <div><CircularProgress /></div> : <Redirect to="/login" />
           }</div>

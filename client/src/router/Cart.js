@@ -92,10 +92,13 @@ class Cart extends React.Component {
             },
             body: JSON.stringify({ id: this.state.email })
           }).then(res => {
-            this.setState({ data: [], redirect: true, disabled: true, total: 0 });
+            this.setState({ redirect: true, disabled: true });
           })
         }, 1000)
       }, 3000)
+    setTimeout(() => {
+      this.setState({ data: [], total: 0 })
+    }, 4222)
   }
   // To remove item from the cart
   removeItem = (index) => {
@@ -153,7 +156,16 @@ class Cart extends React.Component {
     return (
       <div>
         {
-          (this.state.redirect) ? <Redirect to="/" /> : <></>
+          (this.state.redirect) ?
+            <Redirect to={{
+              pathname: "/invoice",
+              state: {
+                data: {
+                  items: this.state.data,
+                  total: this.state.total
+                }
+              }
+            }} /> : <></>
         }
         <div style={{ marginTop: 5, width: "100%", height: "85vh" }}>
           <div style={{ position: "relative", textAlign: "center", paddingTop: 30 }}>

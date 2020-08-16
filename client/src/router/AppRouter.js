@@ -7,6 +7,7 @@ import AppBar from "../component/AppBar";
 import PrivateRoute from "./PrivateRoute";
 import { withCookies, } from "react-cookie";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import Invoice from "./Invoice";
 class AppRouter extends React.Component {
   constructor(props) {
     super(props);
@@ -35,6 +36,7 @@ class AppRouter extends React.Component {
           <Switch>
             <PrivateRoute exact path="/" component={App} />
             <PrivateRoute path="/cart" component={Cart} />
+            <Route path="/invoice" component={Invoice} />
             <Route path="/login" component={Login} >
               {this.state.authenticated ? <Redirect to="/" /> : null}
             </Route>

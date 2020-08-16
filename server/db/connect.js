@@ -22,12 +22,16 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 });
 
 const db = {};
+try {
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+  db.Sequelize = Sequelize;
+  db.sequelize = sequelize;
 
-db.user = require("../model/user.js")(sequelize, Sequelize);
-db.item = require("../model/item.js")(sequelize, Sequelize);
+  db.user = require("../model/user.js")(sequelize, Sequelize);
+  db.item = require("../model/item.js")(sequelize, Sequelize);
+} catch (e) {
+  console.log("error in connecting to database");
+}
 
 
 module.exports = db;

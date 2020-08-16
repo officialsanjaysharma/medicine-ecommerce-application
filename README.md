@@ -10,6 +10,7 @@
 - React
 - Express
 - Material-UI
+- Sequelize
 
 ## SETUP
 

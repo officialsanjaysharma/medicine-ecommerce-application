@@ -29,7 +29,7 @@ Sample <b>config.js</b>
 
     ```
     module.exports = {
-    endpoint: "https://5f1a8228610bde0016fd2a74.mockapi.io/       getTestList",
+    endpoint: "https://5f1a8228610bde0016fd2a74.mockapi.io/getTestList",
     HOST: "localhost",
     USER: "postgres",
     PASSWORD: "docker",

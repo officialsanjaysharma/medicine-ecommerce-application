@@ -48,3 +48,8 @@ Sample <b>config.js</b>
 2. Install node_modules by typing <b>npm install / yarn</b> in terminal.
 3. Make sure you run <b>Posgres</b> and <b>redis</b> server before starting the server.
 4. Type <b>npm run start / yarn start</b> in terminal to run server.
+### Docker
+ - Use the follorwing commands to run Redis using docker
+    <b>docker run --name my-redis  -d -p 6379:6379  redis</b>
+ - Use the following command to run Posgtres using Docker
+    <b>docker run --rm   --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres</b>
